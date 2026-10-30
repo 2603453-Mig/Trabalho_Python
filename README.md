@@ -26,8 +26,6 @@ materiais e empréstimos.
 
 ## Mapeamento das entidades
 
-## Mapeamento das entidades
-
 O sistema é composto pelas seguintes entidades:
 
 ### 1. Pessoas
@@ -35,9 +33,7 @@ O sistema é composto pelas seguintes entidades:
 | Entidade | Atributos | Comportamentos |
 |---|---|---|
 | `Pessoa` (abstrata) | Nome, documento | `apresentar()` |
-
 | `Leitor` | Matrícula, empréstimos | `apresentar()`, `identificador` |
-
 | `Bibliotecario` | Registro | `apresentar()`, `registro` |
 
 ### 2. Materiais
@@ -45,17 +41,14 @@ O sistema é composto pelas seguintes entidades:
 | Entidade | Atributos | Comportamentos |
 |---|---|---|
 | `Material` (abstrata) | Código, título, disponibilidade | `calcular_prazo_dias()`, `tipo_material()`, `validar_codigo()` |
-
 | `Livro` | Autor | `calcular_prazo_dias()`, `tipo_material()`, `from_string()` |
-
 | `Revista` | Edição | `calcular_prazo_dias()`, `tipo_material()` |
 
 ### 3. Operações e gerenciamento
 
 | Entidade | Atributos | Comportamentos |
 |---|---|---|
-| `Emprestimo` | Leitor, material, data do empréstimo, data de devolução | `devolver()`, `dias_atraso`,`data_devolucao_prevista` |
-
+| `Emprestimo` | Leitor, material, data do empréstimo, data de devolução | `devolver()`, `dias_atraso`, `data_devolucao_prevista` |
 | `Biblioteca` | Nome, leitores, bibliotecários, materiais, empréstimos | `cadastrar_leitor()`, `cadastrar_bibliotecario()`, `cadastrar_material()`, `buscar_material()`, `buscar_leitor()`, `realizar_emprestimo()`, `realizar_devolucao()`, `listar_materiais()`, `listar_pessoas()`, `gerar_relatorio()` |
 
 ### Descrição das entidades
@@ -68,7 +61,6 @@ O sistema é composto pelas seguintes entidades:
 - **Revista:** representa uma revista do acervo, possuindo edição e prazo de empréstimo próprio.
 - **Emprestimo:** registra a retirada de um material por um leitor e controla as datas de empréstimo e devolução.
 - **Biblioteca:** gerencia os cadastros, materiais, leitores, bibliotecários e operações de empréstimo e devolução.
-
 
 ## Requisitos de POO
 
