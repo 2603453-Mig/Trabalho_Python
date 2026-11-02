@@ -1,6 +1,4 @@
 from modelos.pessoa import Pessoa
-from interfaces import Identificavel
-
 
 class Leitor(Pessoa):
     """Representa um leitor da biblioteca."""
@@ -9,6 +7,9 @@ class Leitor(Pessoa):
 
     def __init__(self, nome: str, documento: str, matricula: str):
         super().__init__(nome, documento)
+
+        if not matricula.strip():
+            raise ValueError("A matrícula não pode estar vazia.")
 
         self._matricula = matricula
         self._emprestimos = []

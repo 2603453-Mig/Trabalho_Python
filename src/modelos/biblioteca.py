@@ -3,6 +3,8 @@ from modelos.bibliotecario import Bibliotecario
 from modelos.material import Material
 from modelos.emprestimo import Emprestimo
 
+from interfaces import Identificavel
+
 from excecoes import (
     CadastroDuplicadoError,
     NaoEncontradoError,
@@ -11,53 +13,47 @@ from excecoes import (
 
 
 class Biblioteca:
-    """Gerencia os cadastros e operações da biblioteca."""
+    """Gerencia os cadastros e as operações da biblioteca."""
 
     def __init__(self, nome: str):
         self._nome = nome
-
-        # Composição: a biblioteca mantém seus próprios objetos.
         self._leitores: list[Leitor] = []
         self._bibliotecarios: list[Bibliotecario] = []
         self._materiais: list[Material] = []
         self._emprestimos: list[Emprestimo] = []
 
+    def _verificar_identificador_unico(self, objeto: Identificavel, colecao: list) -> None:
+        """Verifica se o identificador já está cadastrado."""
+
+        for item in colecao:
+            if item.identificador == objeto.identificador:
+                raise CadastroDuplicadoError(
+                    f"O identificador '{objeto.identificador}' já está cadastrado."
+                )
+
     def cadastrar_leitor(self, leitor: Leitor) -> None:
-        """Cadastra um novo leitor."""
-        pass
+        """Cadastra um leitor na biblioteca."""
+
+        self._verificar_identificador_unico(leitor, self._leitores)
+        self._leitores.append(leitor)
 
     def cadastrar_bibliotecario(self, bibliotecario: Bibliotecario) -> None:
-        """Cadastra um novo bibliotecário."""
-        pass
+        """Cadastra um bibliotecário na biblioteca."""
+
+        self._verificar_identificador_unico(
+            bibliotecario,
+            self._bibliotecarios
+        )
+        self._bibliotecarios.append(bibliotecario)
 
     def cadastrar_material(self, material: Material) -> None:
-        """Adiciona um material ao acervo."""
-        pass
+        """Cadastra um material no acervo."""
 
-    def buscar_material(self, codigo: str) -> Material:
-        """Busca um material pelo código."""
-        raise NotImplementedError
-
-    def buscar_leitor(self, matricula: str) -> Leitor:
-        """Busca um leitor pela matrícula."""
-        raise NotImplementedError
-
-    def realizar_emprestimo(self, matricula: str, codigo: str) -> Emprestimo:
-        """Realiza o empréstimo de um material."""
-        raise NotImplementedError
-
-    def realizar_devolucao(self, codigo: str) -> None:
-        """Registra a devolução de um material."""
-        raise NotImplementedError
+        self._verificar_identificador_unico(material, self._materiais)
+        self._materiais.append(material)
 
     def listar_materiais(self) -> list[Material]:
-        """Retorna todos os materiais cadastrados."""
         return self._materiais.copy()
 
     def listar_pessoas(self) -> list[Leitor | Bibliotecario]:
-        """Retorna uma lista mista de pessoas."""
         return self._leitores.copy() + self._bibliotecarios.copy()
-
-    def gerar_relatorio(self) -> str:
-        """Gera um relatório do acervo e dos empréstimos."""
-        raise NotImplementedError

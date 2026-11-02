@@ -17,11 +17,27 @@ class Pessoa(ABC):
         if not valor.strip():
             raise ValueError("O nome não pode estar vazio.")
 
+        if not valor.replace(" ", "").isalpha():
+            raise ValueError("O nome deve conter apenas letras.")
+
         self._nome = valor
 
     @property
     def documento(self) -> str:
         return self._documento
+
+    @documento.setter
+    def documento(self, valor: str) -> None:
+        if not valor.strip():
+            raise ValueError("O documento não pode estar vazio.")
+
+        if not valor.isdigit():
+            raise ValueError("O documento deve conter apenas números.")
+
+        if len(valor) != 11:
+            raise ValueError("O documento deve possuir exatamente 11 números.")
+
+        self._documento = valor
 
     @abstractmethod
     def apresentar(self) -> str:

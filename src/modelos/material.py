@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from interfaces import Identificavel
 
 
 class Material(ABC):
@@ -8,7 +7,10 @@ class Material(ABC):
     total_criados = 0
 
     def __init__(self, codigo: str, titulo: str):
-        self._codigo = codigo
+        if not self.validar_codigo(codigo):
+            raise ValueError("O código não pode estar vazio.")
+
+        self._codigo = codigo.strip()
         self.titulo = titulo
         self._disponivel = True
 
@@ -16,7 +18,6 @@ class Material(ABC):
 
     @staticmethod
     def validar_codigo(codigo: str) -> bool:
-        """Verifica se o código é válido."""
         return bool(codigo.strip())
 
     @property
@@ -36,7 +37,7 @@ class Material(ABC):
         if not valor.strip():
             raise ValueError("O título não pode estar vazio.")
 
-        self._titulo = valor
+        self._titulo = valor.strip()
 
     @property
     def disponivel(self) -> bool:
@@ -44,10 +45,8 @@ class Material(ABC):
 
     @abstractmethod
     def calcular_prazo_dias(self) -> int:
-        """Define o prazo de empréstimo do material."""
         pass
 
     @abstractmethod
     def tipo_material(self) -> str:
-        """Retorna o tipo do material."""
         pass

@@ -9,7 +9,10 @@ class Livro(Material):
     def __init__(self, codigo: str, titulo: str, autor: str):
         super().__init__(codigo, titulo)
 
-        self._autor = autor
+        if not autor.strip():
+            raise ValueError("O autor não pode estar vazio.")
+
+        self._autor = autor.strip()
 
     @property
     def autor(self) -> str:
@@ -23,6 +26,5 @@ class Livro(Material):
 
     @classmethod
     def from_string(cls, dados: str):
-        """Cria um livro a partir de uma string separada por ponto e vírgula."""
         codigo, titulo, autor = dados.split(";")
         return cls(codigo, titulo, autor)

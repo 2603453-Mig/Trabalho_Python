@@ -1,6 +1,12 @@
 from modelos.biblioteca import Biblioteca
+from modelos.leitor import Leitor
+from modelos.bibliotecario import Bibliotecario
+from modelos.livro import Livro
+from modelos.revista import Revista
 
+from excecoes import CadastroDuplicadoError
 
+        
 class Menu:
     """Controla a interação entre o usuário e o sistema."""
 
@@ -56,20 +62,146 @@ class Menu:
                 else:
                     print("Opção inválida.")
 
-            except (ValueError, Exception) as erro:
-                print(f"Erro: {erro}")
+            except Exception as erro:
+                print(f"Erro inesperado: {erro}")
+    
+    #--------- COMEÇO DAS FUNÇÕES DE SOLICITAÇÕES -----------
+                
+    def solicitar_nome(self):
+        """Verificar se o nome está adequado"""
+        while True:
+            nome = input("Nome: ").strip()
 
-    def cadastrar_leitor(self) -> None:
-        """Solicita os dados de um leitor."""
-        print("Cadastro de leitor - A implementar.")
+            try:
+                if not nome.replace(" ", "").isalpha():
+                    raise ValueError("Digite apenas letras.")
+
+                return nome
+
+            except ValueError as erro:
+                print(f"Nome inválido: {erro}")
+
+    def solicitar_documento(self):
+        """Verificar se o documento está adequado"""
+        while True:
+            documento = input("CPF (11 números): ").strip()
+
+            if not documento.isdigit():
+                print("Documento inválido! Digite apenas números.")
+                continue
+
+            if len(documento) != 11:
+                print("Documento inválido! Deve possuir 11 números.")
+                continue
+
+            return documento
+    
+    def solicitar_codigo(self):
+        while True:
+            codigo = input("Código do material: ").strip()
+
+            if codigo:
+                return codigo
+
+            print("Código inválido! O campo não pode ficar vazio.")
+
+
+    def solicitar_titulo(self):
+        while True:
+            titulo = input("Título: ").strip()
+
+            if titulo:
+                return titulo
+
+            print("Título inválido! O campo não pode ficar vazio.")
+
+
+    def solicitar_edicao(self):
+        while True:
+            edicao = input("Número da edição: ").strip()
+
+            if not edicao.isdigit():
+                print("Edição inválida! Digite apenas números.")
+                continue
+
+            edicao = int(edicao)
+
+            if edicao <= 0:
+                print("A edição deve ser maior que zero.")
+                continue
+
+            return edicao
+    
+    #----------- FIM DAS FUNÇÕES DE SOLICITAÇÕES -------------
+    
+    #--------- COMEÇO DAS FUNÇÕES DE CADASTRO -----------
+
+    def cadastrar_leitor(self):
+        print("\n--- Cadastro de Leitor ---")
+
+        nome = self.solicitar_nome()
+        documento = self.solicitar_documento()
+        matricula = input("Matrícula: ")
+
+        try:
+            leitor = Leitor(nome, documento, matricula)
+            self._biblioteca.cadastrar_leitor(leitor)
+
+            print("\nLeitor cadastrado com sucesso!")
+
+        except (ValueError, CadastroDuplicadoError) as erro:
+            print(f"\nErro ao cadastrar leitor: {erro}")
 
     def cadastrar_bibliotecario(self) -> None:
-        """Solicita os dados de um bibliotecário."""
-        print("Cadastro de bibliotecário - A implementar.")
+        print("\n--- Cadastro de Bibliotecario ---")
 
-    def cadastrar_material(self) -> None:
-        """Solicita os dados de um material."""
-        print("Cadastro de material - A implementar.")
+        nome = self.solicitar_nome()
+        documento = self.solicitar_documento()
+        registro = input("Registro: ")
+
+        try:
+            bibliotecario = Bibliotecario(nome, documento, registro)
+            self._biblioteca.cadastrar_bibliotecario(bibliotecario)
+
+            print("\nBibliotecario cadastrado com sucesso!")
+
+        except (ValueError, CadastroDuplicadoError) as erro:
+            print(f"\nErro ao cadastrar bibliotecario: {erro}")
+
+    def cadastrar_material(self):
+        print("\n--- Cadastro de Material ---")
+        print("1 - Livro")
+        print("2 - Revista")
+
+        tipo = input("Escolha o tipo de material: ").strip()
+
+        try:
+            if tipo == "1":
+                codigo = self.solicitar_codigo()
+                titulo = self.solicitar_titulo()
+                autor = input("Autor: ").strip()
+
+                material = Livro(codigo, titulo, autor)
+
+            elif tipo == "2":
+                codigo = self.solicitar_codigo()
+                titulo = self.solicitar_titulo()
+                edicao = self.solicitar_edicao()
+
+                material = Revista(codigo, titulo, edicao)
+
+            else:
+                print("Opção inválida!")
+                return
+
+            self._biblioteca.cadastrar_material(material)
+
+            print("\nMaterial cadastrado com sucesso!")
+
+        except (ValueError, CadastroDuplicadoError) as erro:
+            print(f"\nErro ao cadastrar material: {erro}")
+    
+    #----------- FIM DAS FUNÇÕES DE CADASTRO -------------
 
     def realizar_emprestimo(self) -> None:
         """Solicita os dados de um empréstimo."""

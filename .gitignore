@@ -1,0 +1,10 @@
+# Cache do Python
+__pycache__/
+*.py[cod]
+
+# Ambientes virtuais
+venv/
+.venv/
+
+# Arquivos temporários
+*.log

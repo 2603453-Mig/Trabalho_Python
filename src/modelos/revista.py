@@ -9,6 +9,9 @@ class Revista(Material):
     def __init__(self, codigo: str, titulo: str, edicao: int):
         super().__init__(codigo, titulo)
 
+        if not isinstance(edicao, int) or isinstance(edicao, bool) or edicao <= 0:
+            raise ValueError("A edição deve ser um número inteiro positivo.")
+
         self._edicao = edicao
 
     @property
