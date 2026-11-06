@@ -1,9 +1,9 @@
 # Sistema de Gerenciamento de Biblioteca
 
 ## Integrantes
+- Alisson Fortran
 - Miguel Geme Stella
-- Integrante 2
-- Integrante 3
+- Victor Leonardo Piconi Cardinali
 
 ## Descrição
 Sistema em Python para gerenciar
