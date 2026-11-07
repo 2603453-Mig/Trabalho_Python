@@ -134,7 +134,7 @@ class Menu:
     
     #----------- FIM DAS FUNÇÕES DE SOLICITAÇÕES -------------
     
-    #--------- COMEÇO DAS FUNÇÕES DE CADASTRO -----------
+    #--------- COMEÇO DAS FUNÇÕES DE CADASTRO ----------- (Opção 1)
 
     def cadastrar_leitor(self):
         print("\n--- Cadastro de Leitor ---")
@@ -202,7 +202,7 @@ class Menu:
             print(f"\nErro ao cadastrar material: {erro}")
     
     #----------- FIM DAS FUNÇÕES DE CADASTRO -------------
-
+    #--------- COMEÇO DAS FUNÇÕES DE EMPRESTIMO ----------- (Opção 4)
     def realizar_emprestimo(self) -> None:
         """Solicita os dados de um empréstimo."""
         print("Empréstimo - A implementar.")
@@ -210,9 +210,10 @@ class Menu:
     def realizar_devolucao(self) -> None:
         """Solicita os dados de uma devolução."""
         print("Devolução - A implementar.")
-
+    #--------- COMEÇO DAS FUNÇÕES DE LISTAR DADOS ----------- (Opção 6)
     def listar_dados(self) -> None:
         """Exibe os dados cadastrados."""
+        print("\n--- Dados cadastrados. ---")
 
         print("\n--- PESSOAS ---")
 
