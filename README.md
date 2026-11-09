@@ -3,7 +3,7 @@
 ## Integrantes
 - Miguel Geme Stella
 - Alisson Foltran Ortega
-- Integrante 3
+- Victor Leonardo Piconi Cardinali
 
 ## Descrição
 Sistema em Python para gerenciar
