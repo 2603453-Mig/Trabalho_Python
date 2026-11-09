@@ -1,4 +1,5 @@
 from modelos.pessoa import Pessoa
+from excecoes import LimiteEmprestimosError
 
 class Leitor(Pessoa):
     """Representa um leitor da biblioteca."""
@@ -24,3 +25,24 @@ class Leitor(Pessoa):
 
     def apresentar(self) -> str:
         return f"Leitor: {self.nome} - Matrícula: {self.matricula}"
+
+    @property
+    def emprestimos(self) -> list:
+        """Retorna uma cópia da lista de empréstimos."""
+        return self._emprestimos.copy()
+
+    def adicionar_emprestimo(self, emprestimo) -> None:
+        """Adiciona um empréstimo ao leitor."""
+
+        emprestimos_ativos = [
+            item for item in self._emprestimos
+            if item.data_devolucao is None
+        ]
+
+        if len(emprestimos_ativos) >= self.LIMITE_EMPRESTIMOS:
+            from excecoes import LimiteEmprestimosError
+            raise LimiteEmprestimosError(
+                "O leitor atingiu o limite de empréstimos ativos."
+            )
+
+        self._emprestimos.append(emprestimo)

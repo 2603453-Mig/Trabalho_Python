@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from excecoes import MaterialIndisponivelError
 
 
 class Material(ABC):
@@ -42,6 +43,22 @@ class Material(ABC):
     @property
     def disponivel(self) -> bool:
         return self._disponivel
+
+    def marcar_emprestado(self) -> None:
+        """Marca o material como emprestado."""
+
+        if not self._disponivel:
+            from excecoes import MaterialIndisponivelError
+            raise MaterialIndisponivelError(
+                "Este material já está emprestado."
+            )
+
+        self._disponivel = False
+
+
+    def marcar_disponivel(self) -> None:
+        """Marca o material como disponível novamente."""
+        self._disponivel = True
 
     @abstractmethod
     def calcular_prazo_dias(self) -> int:

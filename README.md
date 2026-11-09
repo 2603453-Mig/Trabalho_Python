@@ -2,7 +2,7 @@
 
 ## Integrantes
 - Miguel Geme Stella
-- Integrante 2
+- Alisson Foltran Ortega
 - Integrante 3
 
 ## Descrição

@@ -20,6 +20,15 @@ class Emprestimo:
     def material(self) -> Material:
         return self._material
 
+    def devolver(self) -> None:
+            """Registra a devolução do material."""
+            self._data_devolucao = date.today()
+
+    @property
+    def data_devolucao(self) -> date | None:
+        """Retorna a data em que o material foi devolvido."""
+        return self._data_devolucao
+
     @property
     def data_devolucao_prevista(self) -> date:
         prazo = self.material.calcular_prazo_dias()
@@ -30,7 +39,3 @@ class Emprestimo:
         """Calcula quantos dias o empréstimo está atrasado."""
         data_referencia = self._data_devolucao or date.today()
         return max(0, (data_referencia - self.data_devolucao_prevista).days)
-
-    def devolver(self) -> None:
-        """Registra a devolução do material."""
-        self._data_devolucao = date.today()

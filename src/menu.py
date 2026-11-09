@@ -4,8 +4,12 @@ from modelos.bibliotecario import Bibliotecario
 from modelos.livro import Livro
 from modelos.revista import Revista
 
-from excecoes import CadastroDuplicadoError
-
+from excecoes import (
+    CadastroDuplicadoError,
+    NaoEncontradoError,
+    MaterialIndisponivelError,
+    LimiteEmprestimosError
+)
         
 class Menu:
     """Controla a interação entre o usuário e o sistema."""
@@ -204,8 +208,31 @@ class Menu:
     #----------- FIM DAS FUNÇÕES DE CADASTRO -------------
 
     def realizar_emprestimo(self) -> None:
-        """Solicita os dados de um empréstimo."""
-        print("Empréstimo - A implementar.")
+        """Solicita os dados e realiza um empréstimo."""
+
+        print("\n--- Realizar Empréstimo ---")
+
+        matricula = input("Matrícula do leitor: ").strip()
+        codigo = self.solicitar_codigo()
+
+        try:
+            emprestimo = self._biblioteca.realizar_emprestimo(
+                matricula, codigo
+            )
+
+            print("\nEmpréstimo realizado com sucesso!")
+            print(f"Leitor: {emprestimo.leitor.nome}")
+            print(f"Material: {emprestimo.material.titulo}")
+            print(
+                f"Devolução prevista: "
+                f"{emprestimo.data_devolucao_prevista.strftime('%d/%m/%Y')}"
+            )
+
+        except (NaoEncontradoError,
+                MaterialIndisponivelError,
+                LimiteEmprestimosError) as erro:
+
+            print(f"\nNão foi possível realizar o empréstimo: {erro}")
 
     def realizar_devolucao(self) -> None:
         """Solicita os dados de uma devolução."""
