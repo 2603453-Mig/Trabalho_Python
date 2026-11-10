@@ -48,7 +48,6 @@ class Material(ABC):
         """Marca o material como emprestado."""
 
         if not self._disponivel:
-            from excecoes import MaterialIndisponivelError
             raise MaterialIndisponivelError(
                 "Este material já está emprestado."
             )

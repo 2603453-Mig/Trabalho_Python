@@ -8,7 +8,8 @@ from excecoes import (
     CadastroDuplicadoError,
     NaoEncontradoError,
     MaterialIndisponivelError,
-    LimiteEmprestimosError
+    LimiteEmprestimosError,
+    DevolucaoDuplicadaError
 )
         
 class Menu:
@@ -235,8 +236,26 @@ class Menu:
             print(f"\nNão foi possível realizar o empréstimo: {erro}")
 
     def realizar_devolucao(self) -> None:
-        """Solicita os dados de uma devolução."""
-        print("Devolução - A implementar.")
+        """Solicita o código e realiza a devolução de um material."""
+
+        print("\n--- Devolução de Material ---")
+
+        codigo = self.solicitar_codigo()
+
+        try:
+            emprestimo = self._biblioteca.realizar_devolucao(codigo)
+
+            print("\nDevolução realizada com sucesso!")
+            print(f"Material: {emprestimo.material.titulo}")
+            print(f"Leitor: {emprestimo.leitor.nome}")
+            print(
+                f"Data da devolução: "
+                f"{emprestimo.data_devolucao.strftime('%d/%m/%Y')}"
+            )
+
+        except (NaoEncontradoError, DevolucaoDuplicadaError) as erro:
+            print(f"\nErro ao realizar devolução: {erro}")
+
     #--------- COMEÇO DAS FUNÇÕES DE LISTAR DADOS ----------- (Opção 6)
     def listar_dados(self) -> None:
         """Exibe os dados cadastrados."""
