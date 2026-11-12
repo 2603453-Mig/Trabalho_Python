@@ -40,7 +40,7 @@ class Leitor(Pessoa):
         ]
 
         if len(emprestimos_ativos) >= self.LIMITE_EMPRESTIMOS:
-            from excecoes import LimiteEmprestimosError
+
             raise LimiteEmprestimosError(
                 "O leitor atingiu o limite de empréstimos ativos."
             )

@@ -6,7 +6,7 @@ class Pessoa(ABC):
 
     def __init__(self, nome: str, documento: str):
         self.nome = nome
-        self._documento = documento
+        self.documento = documento
 
     @property
     def nome(self) -> str:
@@ -20,7 +20,7 @@ class Pessoa(ABC):
         if not valor.replace(" ", "").isalpha():
             raise ValueError("O nome deve conter apenas letras.")
 
-        self._nome = valor
+        self._nome = valor.strip()
 
     @property
     def documento(self) -> str:

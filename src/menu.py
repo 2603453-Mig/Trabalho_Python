@@ -5,6 +5,7 @@ from modelos.livro import Livro
 from modelos.revista import Revista
 
 from excecoes import (
+    BibliotecaError,
     CadastroDuplicadoError,
     NaoEncontradoError,
     MaterialIndisponivelError,
@@ -67,8 +68,8 @@ class Menu:
                 else:
                     print("Opção inválida.")
 
-            except Exception as erro:
-                print(f"Erro inesperado: {erro}")
+            except (BibliotecaError, ValueError) as erro:
+                print(f"Erro: {erro}")
     
     #--------- COMEÇO DAS FUNÇÕES DE SOLICITAÇÕES -----------
                 

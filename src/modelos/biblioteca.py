@@ -86,7 +86,7 @@ class Biblioteca:
     def listar_pessoas(self) -> list[Leitor | Bibliotecario]:
         return self._leitores.copy() + self._bibliotecarios.copy()
 
-# Função de emprestimo e devolução
+    # Função de emprestimo e devolução
     def realizar_emprestimo(self, matricula: str, codigo: str) -> Emprestimo:
         """Realiza o empréstimo de um material para um leitor."""
 
@@ -111,24 +111,4 @@ class Biblioteca:
 
         return emprestimo
 
-    def realizar_devolucao(self, codigo: str) -> Emprestimo:
-        """Registra a devolução de um material."""
-
-        material = self.buscar_material(codigo)
-
-        for emprestimo in self._emprestimos:
-            if emprestimo.material.codigo == codigo:
-
-                if emprestimo.data_devolucao is not None:
-                    raise DevolucaoDuplicadaError(
-                        "Este material já foi devolvido."
-                    )
-
-                emprestimo.devolver()
-                material.marcar_disponivel()
-
-                return emprestimo
-
-        raise NaoEncontradoError(
-            f"Não existe empréstimo registrado para o material '{codigo}'."
-        )
+    
