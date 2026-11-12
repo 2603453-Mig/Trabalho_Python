@@ -263,6 +263,8 @@ class Menu:
         print("\n--- Dados cadastrados. ---")
 
         print("\n--- PESSOAS ---")
+
+      pessoas = self._biblioteca.listar_pessoas()
         
     if not pessoas:
         print("Nenhuma pessoa cadastrada.")
