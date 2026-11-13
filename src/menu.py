@@ -264,16 +264,14 @@ class Menu:
 
         print("\n--- PESSOAS ---")
 
-      pessoas = self._biblioteca.listar_pessoas()
+        pessoas = self._biblioteca.listar_pessoas()
         
-    if not pessoas:
-        print("Nenhuma pessoa cadastrada.")
-    else:
-        for pessoa in pessoas:
-            print(pessoa.apresentar())
+        if not pessoas:
+            print("Nenhuma pessoa cadastrada.")
+        else:
+            for pessoa in pessoas:
+                print(pessoa.apresentar())
             
-        for pessoa in self._biblioteca.listar_pessoas():
-            print(pessoa.apresentar())
 
         print("\n--- MATERIAIS ---")
 
@@ -282,7 +280,25 @@ class Menu:
 
     def buscar_material(self) -> None:
         """Busca um material pelo código."""
-        print("Busca de material - A implementar.")
+
+        print("\n--- BUSCAR MATERIAL ---")
+
+        codigo = input("Digite o código do material: ").strip()
+
+        material_encontrado = None
+
+        for material in self._biblioteca.listar_materiais():
+            if material.codigo == codigo:
+                material_encontrado = material
+                break
+
+        if material_encontrado:
+            print("\nMaterial encontrado!")
+            print(f"Tipo: {material_encontrado.tipo_material()}")
+            print(f"Título: {material_encontrado.titulo}")
+            print(f"Código: {material_encontrado.codigo}")
+        else:
+            print("\nNenhum material encontrado com esse código.")
 
     def gerar_relatorio(self) -> None:
         """Exibe o relatório da biblioteca."""
