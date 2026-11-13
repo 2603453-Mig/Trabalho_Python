@@ -277,7 +277,8 @@ class Menu:
 
         for material in self._biblioteca.listar_materiais():
             print(f"{material.tipo_material()}: {material.titulo}")
-
+    #--------- FIM DAS FUNÇÕES DE LISTAR DADOS ----------- (Opção 6)
+    #--------- COMEÇO DAS FUNÇÕES DE BUSCA DE MATERIAL ----------- (Opção 7)
     def buscar_material(self) -> None:
         """Busca um material pelo código."""
 
@@ -299,7 +300,8 @@ class Menu:
             print(f"Código: {material_encontrado.codigo}")
         else:
             print("\nNenhum material encontrado com esse código.")
-
+    #--------- FIM DAS FUNÇÕES DE BUSCA DE MATERIAL ----------- (Opção 7)
+    #--------- COMEÇO DAS FUNÇÕES DE RELATÓRIO ----------- (Opção 8)
     def gerar_relatorio(self) -> None:
         """Exibe o relatório da biblioteca."""
         print(self._biblioteca.gerar_relatorio())
