@@ -20,7 +20,8 @@ materiais e empréstimos.
 - Livros possuem prazo de empréstimo de 14 dias.
 - Revistas possuem prazo de empréstimo de 7 dias.
 - Um empréstimo não pode ser devolvido mais de uma vez.
-- Atrasos na devolução podem gerar multas.
+- Atrasos na devolução exigem o pagamento de uma multa.
+  O valor deverá ser consultado com um funcionário da biblioteca.
 - Todos os empréstimos devem estar associados a um leitor
   e a um material cadastrado.
 

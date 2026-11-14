@@ -11,9 +11,9 @@ from excecoes import (
     CadastroDuplicadoError,
     NaoEncontradoError,
     MaterialIndisponivelError,
-    DevolucaoDuplicadaError
+    DevolucaoDuplicadaError,
+    EmprestimoNaoEncontradoError
 )
-
 
 class Biblioteca:
     """Gerencia os cadastros e as operações da biblioteca."""
@@ -117,16 +117,29 @@ class Biblioteca:
 
         material = self.buscar_material(codigo)
 
-        for emprestimo in self._emprestimos:
-            if emprestimo.material.codigo == codigo:
+        # Busca todos os empréstimos relacionados ao material.
+        emprestimos_material = [
+            emprestimo for emprestimo in self._emprestimos
+            if emprestimo.material.codigo == codigo
+        ]
 
-                if emprestimo.data_devolucao is None:
-                    emprestimo.devolver()
-                    material.marcar_disponivel()
-                    return emprestimo
+        # Procura um empréstimo que ainda esteja ativo.
+        for emprestimo in emprestimos_material:
+            if emprestimo.data_devolucao is None:
+                emprestimo.devolver()
+                material.marcar_disponivel()
+                return emprestimo
 
-        raise DevolucaoDuplicadaError(
-            "Não existe empréstimo ativo para este material."
+        # Se já existiu empréstimo, mas todos foram devolvidos,
+        # significa que a devolução está sendo repetida.
+        if emprestimos_material:
+            raise DevolucaoDuplicadaError(
+                "Este material já foi devolvido anteriormente."
+            )
+
+        # Se nunca houve empréstimo para esse material.
+        raise EmprestimoNaoEncontradoError(
+            "Este material nunca foi emprestado."
         )
     
         # Faz o relatório

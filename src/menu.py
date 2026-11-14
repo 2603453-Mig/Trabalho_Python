@@ -208,7 +208,8 @@ class Menu:
             print(f"\nErro ao cadastrar material: {erro}")
     
     #----------- FIM DAS FUNÇÕES DE CADASTRO -------------
-    #--------- COMEÇO DAS FUNÇÕES DE EMPRESTIMO ----------- (Opção 4)
+    
+    #--------- COMEÇO DAS FUNÇÕES DE EMPRESTIMO ----------- (Opção 4 e 5)
     def realizar_emprestimo(self) -> None:
         """Solicita os dados e realiza um empréstimo."""
 
@@ -254,30 +255,53 @@ class Menu:
                 f"{emprestimo.data_devolucao.strftime('%d/%m/%Y')}"
             )
 
+            # Verifica se houve atraso na devolução.
+            if emprestimo.dias_atraso > 0:
+                print("\nATENÇÃO: Devolução realizada com atraso!")
+                print("O leitor deverá pagar uma multa.")
+                print(
+                    "Consulte um funcionário da biblioteca "
+                    "para verificar o valor da multa."
+                )
+
         except (NaoEncontradoError, DevolucaoDuplicadaError) as erro:
             print(f"\nErro ao realizar devolução: {erro}")
+    #--------- COMEÇO DAS FUNÇÕES DE EMPRESTIMO ----------- (Opção 4 e 5)
 
     #--------- COMEÇO DAS FUNÇÕES DE LISTAR DADOS ----------- (Opção 6)
     def listar_dados(self) -> None:
         """Exibe os dados cadastrados."""
-        print("\n--- Dados cadastrados. ---")
+
+        print("\n--- DADOS CADASTRADOS ---")
 
         print("\n--- PESSOAS ---")
 
         pessoas = self._biblioteca.listar_pessoas()
-        
+
         if not pessoas:
             print("Nenhuma pessoa cadastrada.")
         else:
             for pessoa in pessoas:
                 print(pessoa.apresentar())
-            
 
         print("\n--- MATERIAIS ---")
 
-        for material in self._biblioteca.listar_materiais():
-            print(f"{material.tipo_material()}: {material.titulo}")
+        materiais = self._biblioteca.listar_materiais()
+
+        if not materiais:
+            print("Nenhum material cadastrado.")
+        else:
+            for material in materiais:
+                disponibilidade = (
+                    "Disponível" if material.disponivel else "Emprestado"
+                )
+
+                print(f"\nTipo: {material.tipo_material()}")
+                print(f"Título: {material.titulo}")
+                print(f"Código: {material.codigo}")
+                print(f"Disponibilidade: {disponibilidade}")
     #--------- FIM DAS FUNÇÕES DE LISTAR DADOS ----------- (Opção 6)
+    
     #--------- COMEÇO DAS FUNÇÕES DE BUSCA DE MATERIAL ----------- (Opção 7)
     def buscar_material(self) -> None:
         """Busca um material pelo código."""

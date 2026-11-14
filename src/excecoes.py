@@ -35,10 +35,3 @@ class EmprestimoNaoEncontradoError(NaoEncontradoError):
 class DevolucaoDuplicadaError(BibliotecaError):
     """Erro quando tentam devolver um material já devolvido."""
     pass
-
-
-# ---------- ERROS DE REGRAS DE NEGÓCIO ----------
-
-class RegraNegocioError(BibliotecaError):
-    """Erro quando uma operação viola uma regra de negócio."""
-    pass
