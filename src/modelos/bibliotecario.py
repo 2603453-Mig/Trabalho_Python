@@ -9,7 +9,7 @@ class Bibliotecario(Pessoa):
         if not registro.strip():
             raise ValueError("O registro não pode estar vazio.")
 
-        self._registro = registro
+        self._registro = registro.strip()
 
     @property
     def registro(self) -> str:

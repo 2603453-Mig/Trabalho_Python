@@ -284,22 +284,18 @@ class Menu:
 
         print("\n--- BUSCAR MATERIAL ---")
 
-        codigo = input("Digite o código do material: ").strip()
+        codigo = self.solicitar_codigo()
 
-        material_encontrado = None
+        try:
+            material = self._biblioteca.buscar_material(codigo)
 
-        for material in self._biblioteca.listar_materiais():
-            if material.codigo == codigo:
-                material_encontrado = material
-                break
-
-        if material_encontrado:
             print("\nMaterial encontrado!")
-            print(f"Tipo: {material_encontrado.tipo_material()}")
-            print(f"Título: {material_encontrado.titulo}")
-            print(f"Código: {material_encontrado.codigo}")
-        else:
-            print("\nNenhum material encontrado com esse código.")
+            print(f"Tipo: {material.tipo_material()}")
+            print(f"Título: {material.titulo}")
+            print(f"Código: {material.codigo}")
+
+        except NaoEncontradoError as erro:
+            print(f"\n{erro}")
     #--------- FIM DAS FUNÇÕES DE BUSCA DE MATERIAL ----------- (Opção 7)
     #--------- COMEÇO DAS FUNÇÕES DE RELATÓRIO ----------- (Opção 8)
     def gerar_relatorio(self) -> None:

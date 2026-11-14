@@ -10,7 +10,6 @@ from interfaces import Identificavel
 from excecoes import (
     CadastroDuplicadoError,
     NaoEncontradoError,
-    RegraNegocioError,
     MaterialIndisponivelError,
     DevolucaoDuplicadaError
 )
@@ -113,6 +112,23 @@ class Biblioteca:
 
         return emprestimo
     
+    def realizar_devolucao(self, codigo: str) -> Emprestimo:
+        """Registra a devolução de um material."""
+
+        material = self.buscar_material(codigo)
+
+        for emprestimo in self._emprestimos:
+            if emprestimo.material.codigo == codigo:
+
+                if emprestimo.data_devolucao is None:
+                    emprestimo.devolver()
+                    material.marcar_disponivel()
+                    return emprestimo
+
+        raise DevolucaoDuplicadaError(
+            "Não existe empréstimo ativo para este material."
+        )
+    
         # Faz o relatório
     def gerar_relatorio(self) -> str:
         """Gera um relatório geral da biblioteca."""
@@ -142,6 +158,7 @@ class Biblioteca:
 
         relatorio.append("\n--- MATERIAIS CADASTRADOS ---")
         relatorio.append(f"Total de materiais: {len(self._materiais)}")
+        relatorio.append(f"Total de materiais criados: {Material.total_criados}")
 
         relatorio.append("\n--- LIVROS ---")
         relatorio.append(f"Quantidade de livros: {len(livros)}")

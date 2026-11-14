@@ -12,7 +12,7 @@ class Leitor(Pessoa):
         if not matricula.strip():
             raise ValueError("A matrícula não pode estar vazia.")
 
-        self._matricula = matricula
+        self._matricula = matricula.strip()
         self._emprestimos = []
 
     @property

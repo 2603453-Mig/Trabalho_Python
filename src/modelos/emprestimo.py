@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 from modelos.leitor import Leitor
 from modelos.material import Material
+from excecoes import DevolucaoDuplicadaError
 
 
 class Emprestimo:
@@ -21,8 +22,14 @@ class Emprestimo:
         return self._material
 
     def devolver(self) -> None:
-            """Registra a devolução do material."""
-            self._data_devolucao = date.today()
+        """Registra a devolução do material."""
+
+        if self._data_devolucao is not None:
+            raise DevolucaoDuplicadaError(
+                "Este empréstimo já foi devolvido."
+            )
+
+        self._data_devolucao = date.today()
 
     @property
     def data_devolucao(self) -> date | None:
