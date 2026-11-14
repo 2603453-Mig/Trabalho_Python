@@ -2,6 +2,8 @@ from modelos.leitor import Leitor
 from modelos.bibliotecario import Bibliotecario
 from modelos.material import Material
 from modelos.emprestimo import Emprestimo
+from modelos.livro import Livro
+from modelos.revista import Revista
 
 from interfaces import Identificavel
 
@@ -110,5 +112,70 @@ class Biblioteca:
         self._emprestimos.append(emprestimo)
 
         return emprestimo
+    
+        # Faz o relatório
+    def gerar_relatorio(self) -> str:
+        """Gera um relatório geral da biblioteca."""
 
+        relatorio = []
+
+        relatorio.append("\n========== RELATÓRIO DA BIBLIOTECA ==========")
+
+        relatorio.append(f"\nNome da biblioteca: {self._nome}")
+
+        relatorio.append("\n--- CADASTROS ---")
+        relatorio.append(f"Total de leitores: {len(self._leitores)}")
+        relatorio.append(
+            f"Total de bibliotecários: {len(self._bibliotecarios)}"
+        )
+
+        # Separação dos materiais
+        livros = [
+            material for material in self._materiais
+            if isinstance(material, Livro)
+        ]
+
+        revistas = [
+            material for material in self._materiais
+            if isinstance(material, Revista)
+        ]
+
+        relatorio.append("\n--- MATERIAIS CADASTRADOS ---")
+        relatorio.append(f"Total de materiais: {len(self._materiais)}")
+
+        relatorio.append("\n--- LIVROS ---")
+        relatorio.append(f"Quantidade de livros: {len(livros)}")
+
+
+        relatorio.append("\n--- REVISTAS ---")
+        relatorio.append(f"Quantidade de revistas: {len(revistas)}")
+
+        # Disponibilidade
+        disponiveis = sum(
+            1 for material in self._materiais
+            if material.disponivel
+        )
+
+        emprestados = len(self._materiais) - disponiveis
+
+        relatorio.append("\n--- DISPONIBILIDADE ---")
+        relatorio.append(f"Materiais disponíveis: {disponiveis}")
+        relatorio.append(f"Materiais emprestados: {emprestados}")
+
+        # Empréstimos
+        ativos = sum(
+            1 for emprestimo in self._emprestimos
+            if emprestimo.data_devolucao is None
+        )
+
+        devolvidos = len(self._emprestimos) - ativos
+
+        relatorio.append("\n--- EMPRÉSTIMOS ---")
+        relatorio.append(f"Empréstimos ativos: {ativos}")
+        relatorio.append(f"Empréstimos devolvidos: {devolvidos}")
+        relatorio.append(f"Total de empréstimos: {len(self._emprestimos)}")
+
+        relatorio.append("\n============================================")
+
+        return "\n".join(relatorio)
     
